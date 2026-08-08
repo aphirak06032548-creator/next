@@ -11,7 +11,7 @@ export const createBook = async (_prevState: string | null, formData: FormData) 
   const price = Number(formData.get("price"));
 
   if (!title || !Number.isInteger(price) || price <= 0) {
-    return "กรุณากรอกข้อมูลให้ถูกต้อง";
+    return "กรอกข้อมูลให้ถูกต้อง";
   }
 
   await prisma.book.create({
@@ -24,4 +24,11 @@ export const createBook = async (_prevState: string | null, formData: FormData) 
   revalidatePath("/book");
 
   return "Book created successfully";
+};
+
+export const deleteBook = async (id: number) => {
+  await prisma.book.delete({
+    where: { id },
+  });
+  revalidatePath("/book");
 };
